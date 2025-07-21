@@ -12,6 +12,19 @@
       color: #ffffff;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #menuToggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #292958;
+      border: none;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      z-index: 1001;
     }
     nav {
       width: 220px;
@@ -20,6 +33,10 @@
       box-shadow: 2px 0 5px rgba(0,0,0,0.2);
       position: fixed;
       height: 100vh;
+      transition: transform 0.3s ease;
+    }
+    nav.hidden {
+      transform: translateX(-100%);
     }
     nav h1 {
       font-size: 1.5rem;
@@ -49,11 +66,49 @@
     section.active {
       display: block;
     }
+    #home {
+      position: relative;
+      background: url('Stellar Server.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    #home::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(4px);
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    #home h2, #home p {
+      position: relative;
+      z-index: 2;
+    }
+    #home h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
     @media (max-width: 768px) {
+      #menuToggle {
+        display: block;
+      }
       nav {
-        position: relative;
-        width: 100%;
-        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        z-index: 1000;
+      }
+      nav.show {
+        transform: translateX(0);
       }
       main {
         margin-left: 0;
@@ -62,7 +117,8 @@
   </style>
 </head>
 <body>
-  <nav>
+  <button id="menuToggle" onclick="toggleMenu()">☰ メニュー</button>
+  <nav id="sidebar" class="hidden">
     <h1>🌌 Stellar</h1>
     <a href="#" onclick="showSection('home')">🏠 ホーム</a>
     <a href="#" onclick="showSection('about')">📜 サーバー紹介</a>
@@ -73,7 +129,7 @@
   </nav>
   <main>
     <section id="home" class="active">
-      <h2>💫 ようこそ、Stellarへ！</h2>
+      <h2>Stellar</h2>
       <p>「つながる、ひろがる、Stellar。」<br>まったり雑談とゲームを楽しめる、星空のような空間を。</p>
     </section>
     <section id="about">
@@ -108,6 +164,14 @@
         sec.classList.remove('active');
       });
       document.getElementById(id).classList.add('active');
+
+      // モバイルメニューを閉じる
+      document.getElementById('sidebar').classList.add('hidden');
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById('sidebar');
+      nav.classList.toggle('hidden');
     }
   </script>
 </body>
